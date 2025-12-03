@@ -1,5 +1,46 @@
 # 0xAI - Next-Gen Secure Code Review: Black Hat Edition
 
+## Requirements
+* Python 3.12
+* Ollama
+* Gemma3 and EmbeddingGemma in Ollama/local tasks
+
+```
+ollama pull gemma3
+ollama pull embeddinggemma
+```
+
+* AWS/Bedrock Access (will be provided for in-person course)
+
+## Setup & Check Install
+Built targeting Python 3.12. Use other python versions at your own risk.
+To run associated scripts:
+```
+# Create a virtual python environment
+python3.12 -m venv venv
+
+# Activate the virtual environment
+source venv/bin/activate
+
+# Install Dependencies
+pip install -r requirements.txt
+
+# Jump into the scripts directory
+cd scripts
+
+# Run the chatbot 
+python 1-lab_setup_chatbot.py
+```
+
+### Errors
+
+If you see an error about OpenMP runtime, set the following:
+
+```
+export KMP_DUPLICATE_LIB_OK=TRUE
+```
+
+
 ## Overview
 Elevate your application security expertise with this exclusive Black Hat course, co-developed by industry leaders Seth Law and Ken Johnson (co-hosts of the Absolute AppSec podcast). This training focuses on leveraging Generative AI and Large Language Models (LLMs) to enhance AppSec tasks and accelerate code analysis across diverse applications. Designed for engineers, consultants, and researchers, you will gain hands-on experience in building and integrating AI components and LLM agents. Learn to streamline analysis and prioritize security tasks, create custom tools for efficient vulnerability discovery, perform risk-based assessments and reviews, and uncover vulnerability edge cases, backdoors, and exploits. By the end of the course, you will be equipped with a battle-tested, AI-augmented methodology to confidently tackle AppSec and secure code review projects.
 
