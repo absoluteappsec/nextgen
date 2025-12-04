@@ -27,14 +27,14 @@ Start the code review by retrieving the latest commit number for BHIMA.
 ```
 
 Record the commit number into _bhima\_scr.md_
-```md
+```text
 We assessed commit `#28253bf29eef295d5b2e95cfaf240c9169b92378`
 ``` 
 
 ### 3. Behavior
 Open up the BHIMA _README.md_ file and start by filling out the behavior analysis section of the code review template. Limit your time to a few minutes and what can be quickly gleaned from the README.
 
-```md
+```text
 ## Behavior
 
 * What does it do? (business purpose)
@@ -47,7 +47,7 @@ Open up the BHIMA _README.md_ file and start by filling out the behavior analysi
 ### 4. Tech Stack
 Now move on to the Tech Stack section of the template, utilize any information from README and open up packages.json for more possibilities.
 
-```md
+```text
 ## Tech Stack
 
 * Framework & Language
@@ -61,7 +61,7 @@ Now move on to the Tech Stack section of the template, utilize any information f
 ### 5. Brainstorming / Risks
 This is all about creativity. Given what you know of the application's purpose and tech stack, fill in 3-4 risks that are apparent. This is a free-form exercise, so anything goes from personnel attacks (e.g. phishing, password theft) to technical vulnerabilities (outdated packages).
 
-```md
+```text
 ## Brainstorming / Risks
 
 * Here is what the feature or product is supposed to do... what might go wrong?
