@@ -1,0 +1,132 @@
+---------------------------------------
+FOR readme_ingestion.py:
+---------------------------------------
+
+        "question":"""
+        You are an application security professional analyzing a software project. You've been provided with the README file from the project. Extract and organize the following security-relevant information:
+
+        ## 1. Application Overview
+        - Core purpose and functionality of the application
+        - Target users/audience
+        - Primary technologies, frameworks, and programming languages used
+        - Deployment models (cloud, on-premise, container-based, etc.)
+
+        ## 2. Security Considerations
+        - Any mentioned security features or security-related functionality
+        - Authentication and authorization mechanisms
+        - Data protection features or encryption approaches
+        - Security-related configuration options
+        - API security information
+
+        ## 3. Security Risk Indicators
+        - Known vulnerabilities or security issues mentioned
+        - Security warnings or disclaimers
+        - Whether it's a deliberately vulnerable application (like DVWA, Juice Shop)
+        - References to security testing tools or processes
+
+        ## 4. Dependencies & Components
+        - Major third-party libraries and dependencies
+        - External services or APIs integrated
+        - Database technologies used
+        - Client-side frameworks/libraries
+
+        ## 5. Application Architecture
+        - Component structure or architecture diagrams described
+        - Data flow information
+        - Communication protocols mentioned
+        - Network services or exposed ports
+
+        ## 6. Documentation & Resources
+        - Links to additional documentation that might contain security information
+        - Security-related documentation mentioned
+        - Security contacts or responsible disclosure policies
+
+        Format your findings as a structured security briefing. If certain information is not available in the README, explicitly note its absence as this itself may be a security consideration. Be thorough but concise.
+        """, 
+
+
+---------------------------------------
+FOR profile_app.py:
+---------------------------------------
+
+        """Analyze the codebase comprehensively and provide a detailed application profile with the following information:
+    
+    ## 1. Application Behavior Analysis
+    
+    - Business Purpose: What is the primary function or business goal of the application?
+    - Target Audience: Who is the application built for (internal users, external customers)?
+    - Data Handling: What types of data does the application store, process, or transmit?
+      - Identify data types handled
+      - Note any sensitive data present
+      - Describe data storage approaches
+    - User Roles: What different types of roles or user permissions exist within the system?
+      - Describe role types and hierarchies
+      - Explain permission scopes
+      - Identify access control patterns
+    
+    ## 2. Language & Framework Analysis
+    
+    - Programming Language: What primary language(s) are used, including versions?
+      - List language features utilized
+      - Note any implementation details
+    - Development Framework: What main framework(s) is the application built on?
+      - Include framework name and version
+      - List key framework components used
+      - Describe framework configuration details
+    - Architecture Pattern: What architectural patterns are implemented (MVC, etc.)?
+      - Explain how the pattern is implemented
+      - Identify key architectural components
+    - Build & Deployment: How is the application built and deployed?
+      - Note build tools and processes
+      - Describe deployment configuration
+      - Explain environment management
+    
+    ## 3. Components & Libraries Analysis
+    
+    List all significant libraries by name, purpose, and version for these categories:
+    - Security Components:
+      - Authentication libraries
+      - Authorization components
+      - Encryption/cryptography libraries
+      - Other security-focused dependencies
+    - Database Components:
+      - ORMs and query builders
+      - Database drivers and connectors
+      - Migration and schema management tools
+    - Frontend Components:
+      - JavaScript frameworks and libraries
+      - CSS frameworks and preprocessors
+      - Asset management tools
+    - API & Integration Components:
+      - API clients
+      - Third-party service SDKs
+      - Data format libraries (JSON, XML, etc.)
+    - Other Notable Dependencies:
+      - Utility libraries
+      - Development and testing tools
+      - Specialized domain-specific libraries
+    
+    ## 4. Datastores & Templating Analysis
+    
+    - Datastores: What databases and storage mechanisms are used?
+      - Database types and versions
+      - Caching mechanisms
+      - File storage approaches
+      - Database configuration details
+    - Database Schema: How is data structured?
+      - Key tables/collections and their purpose
+      - Data relationships
+      - Schema management approach
+    - Data Access Patterns: How does the application interact with data?
+      - Query patterns
+      - Data access layers
+      - Transaction handling
+    - Templating Engines: How does the application generate output?
+      - Template engine(s) used
+      - Template organization
+      - View rendering process
+    - User Interface Construction: How is data presented to users?
+      - View components
+      - UI frameworks
+      - Client-side rendering approaches
+    """

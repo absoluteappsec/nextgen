@@ -1,100 +1,71 @@
-# Exercise 0x12 - Code Review - Information Gathering
+# Exercise 0x12 - AIxCode Review - AI-Enabled Application Overview & Risk Assessment
 
 ## Objective
-Dig deeper into the source code to uncover various coding patterns and techniques that help build understanding of the application architecture. Specifically, we want to understand the application data flow and how user interactions happen.
+Instead of performing the App Overview and Risk Assessment activities manually, utilize AI to both gather and summarize this information based on limited available resources.
 
 ## Instructions
-### 1. Pull down code to analyze
-For this exercise, we will be adding a new project to the list that is purpose-built.
+### 1. Basic Example
+For this exercise, we will be running the included scripts to analyze the README provided by Juice Shop.
+
+Start by opening the _exercise-12/readme\_ingestion.py_ script and looking at the retrieval mechanism and prompt.
+
+```py
+# Stream the output in chunks for a chat-like experience
+    for chunk in chain.stream({
+        "question":"You are being provided the README file from a software project. Please provide a summary of the purpose of the application and any other relevant details you can think to share.", 
+        "context": doc
+    }):
+        print(chunk, end="", flush=True)
+```
+
+Run the script to get a picture of what AI will tell us with the above prompt.
 
 ```sh
-git clone https://github.com/absoluteappsec/skea_node
+python exercise-12/readme_ingestion.py
 ```
 
-### 2. Start notes
-Make a fresh copy of the _/data/scr_template.md_ for the _skea\_node_ application.
+Note that the initial respond _may not_ reflect the details we want for our application overview and risk assessment. Change the question to ask for the information in the source code review template (either pull the list directly from the template use the larger question and output from the _prompt-advanced.txt_ file). 
+
+### 2. Advanced Example
+The README provides limited information about the application and isn't always sufficient for our needs. Instead of relying just on that single source, let's expand out to code snippets and other useful data.
+
+We will accomplish this by cloning the repository, creating a vectorized database of specific files, and querying the database about those files.
+
+Open the _exercise-12/profile\_app.py_ script and review both data retrieval, vectorization, and prompt.
+
+```py
+for chunk in chain.stream(
+    """Tell me the following information about the code base I am providing to you:
+- What is the main purpose of the application?
+- Web technologies used in the application?
+- Any security concerns you can identify based on the code provided?
+    """
+    ):
+    print(chunk, end="", flush=True)
+```
+
+Run the script to get a picture of what AI will tell us with the above prompt.
 
 ```sh
-cp data/scr_template.md skea_node_scr.md
+python exercise-12/profile_app.py
 ```
 
-Start the code review by retrieving the latest commit number for BHIMA.
+As in the basic example, this prompt is lacking structure. Utilize the examples from the secure code review template or the _prompt-advanced.txt_ file to improve the prompt. Run the script to refine the output.
 
-```sh
-% cd skea_node
-% git rev-parse HEAD
-28253bf29eef295d5b2e94cfaf240c9169b92378
+### 3. Real World Code
+Now that we've tried this against Juice Shop, change up the target to pull down and run the same analysis against BHIMA.
+
+Replace the link to the Juice Shop README in _readme\_ingestion.py_ to the following:
+```python
+README_URL = 'https://raw.githubusercontent.com/third-culture-software/bhima/refs/heads/master/README.md'
 ```
 
-Record the commit number into _skea\_node\_scr.md_
-```md
-We assessed commit `#28253bf29eef295d5b2e94cfaf240c9169b92378`
-``` 
+Compare the results to your own manual analysis.
 
-### 3. Behavior/Tech Stack/Risk Analysis
-Open up the skea_node _README.md_ file and start by filling out the Behavior, Tech Stack, and Risk Analysis sections of the code review template. Limit your time to a few minutes and what can be quickly gleaned from looking at the code base.
-
-```text
-## Behavior
-...
-## Tech Stack
-...
-## Brainstorming / Risks
+Now replace the repository link in _profile\_app.py_ with BHIMA. Alternatively, you could point the `local_path` repository to the previously downloaded BHIMA repository.
+```python
+repo_url = 'https://github.com/third-culture-software/bhima.git'
 ```
 
-### 4. Information Gathering - Route Mapping
-This exercise (and portion of the code review methodology) is focused on identifying data flows coming into the application. For the *skea_node* application, start by looking in the _app.js_ file.
+Compare the results of README to full code analysis.
 
-```javascript
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-
-var isAuthenticated = require('./auth.js')
-
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-...
-```
-
-This contains a few interesting patterns, including use of alternate files for both the `indexRouter` and `usersRouter`.
-
-The _routes/index.js_ file gives us the first route (`/`) we need to copy into our notes:
-
-```js
-var express = require('express');
-var router = express.Router();
-
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
-
-module.exports = router;
-```
-
-Document this GET request to `/` in the _Mapping / Routes_ section of the template.
-
-```text
-## Mapping / Routes
-
-- [ ] `GET / routes/index.js`
-```
-
-Continue this process for all routes in the application.
-
-### 5. BHIMA Route Mapping
-Once you have completed mapping routes for *skea_node*, switch to *BHIMA*. Since this is a large open source application, we will prioritize authentication routes for this exercise.
-
-To identify BHIMA's authentication routes and controller files, start by combing through the _server/config/routes.js_ source and search for `login`.
-
-```js
-  // auth gateway
-  app.post('/auth/login', auth.login);
-  app.get('/auth/logout', auth.logout);
-  app.post('/auth/reload', auth.reload);
-```
-
-Identify the affected controllers and document your findings in the template.
