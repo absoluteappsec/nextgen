@@ -1,4 +1,4 @@
-# Exercise 1
+# Exercise 0x01 - Prompt Engineering
 
 ## Objective
 Familiarize yourself with different prompt engineering frameworks through implementation and replacement within the provided script.

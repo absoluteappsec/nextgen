@@ -1,4 +1,4 @@
-# Exercise 1
+# Exercise 0x00 - Lab Setup
 
 ## Objective
 Install all libraries and support software needed to execute course scripts. Test functionality for both local (Ollama) and remote (AWS Bedrock) LLM access.
