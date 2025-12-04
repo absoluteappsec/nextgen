@@ -1,6 +1,6 @@
 # Exercise 1
 
-## Overall Goal
+## Objective
 Install all libraries and support software needed to execute course scripts. Test functionality for both local (Ollama) and remote (AWS Bedrock) LLM access.
 
 ## Instructions
