@@ -1,4 +1,4 @@
-# Exercise 0x13 - Code Review - Information Gathering
+# Exercise 0x13 - Code Review - Information Gathering / Route Mapping
 
 ## Objective
 Dig deeper into the source code to uncover various coding patterns and techniques that help build understanding of the application architecture. Specifically, we want to understand the application data flow and how user interactions happen.
