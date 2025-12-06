@@ -1,4 +1,4 @@
-# Exercise 0x13 - Code Review - Information Gathering / Authorization Functions
+# Exercise 0x14 - Code Review - Information Gathering / Authorization Functions
 
 ## Objective
 Identify all authorization patterns within a targeted code base.
