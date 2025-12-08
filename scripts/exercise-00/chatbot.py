@@ -10,7 +10,7 @@ from langchain_core.messages import HumanMessage, AIMessage, BaseMessage, get_bu
 from typing import Dict, List
 
 # Load environment variables
-# from dotenv import load_dotenv
+from dotenv import load_dotenv
 
 load_dotenv()
 
