@@ -1,7 +1,7 @@
 # Exercise 0x14 - Code Review - Information Gathering / Authorization Functions
 
 ## Objective
-Identify all authorization patterns within a targeted code base.
+Identify all authorization decorators and patterns within a targeted code base.
 
 ## Instructions
 ### 1. Pull down code to analyze
@@ -66,3 +66,11 @@ Document your findings under the `Mapping / Authorization Decorators` section of
 ```
 
 Turn to the internet if you can't determine these functions for Bridge Troll.
+
+# Exercise 0x14a - AIxCode Review - Authorization Functions
+
+## Objective
+Build an Agentic AI Tool to browse through application source and identify all authorization functions utilized by an application.
+
+## Instructions
+Utilize a pattern based on agentic tools previously seen and build out a new tool or tools that browses through a code base and identifies authorization functions. Hint, this could be command-line scripts, vector databases, or any other mechanism that makes sense.
