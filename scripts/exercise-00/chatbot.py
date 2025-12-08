@@ -12,7 +12,7 @@ from typing import Dict, List
 # Load environment variables
 # from dotenv import load_dotenv
 
-# load_dotenv()
+load_dotenv()
 
 faiss_db_path = "../vector_databases/juice_shop.faiss"
 db = FAISS.load_local(
