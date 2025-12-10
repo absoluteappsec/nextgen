@@ -98,3 +98,19 @@ To identify BHIMA's authentication routes and controller files, start by combing
 ```
 
 Identify the affected controllers and document your findings in the template.
+
+# Bonus Exercise 0x13a - AIxCode Review - Route Mapping via AI
+
+## Objective
+Create a comprehensive list of routes for the target application output in the rails route format utilizing a commercial chatbot (e.g. ChatGPT, Gemini).
+
+## Instructions
+
+### 1. Route File Identification
+Identify the route files associated with BHIMA for subsequent analysis, there are at least 2 different files that have route definitions. To be comprehensive, you will need to include _all_ relevant route files to the chose Chatbot.
+
+### 2. Upload Route Files
+Upload the route files to ChatGPT or Gemini and instruct it to output all identified routes in the `rails routes`/`rake routes` format as used by Ruby on Rails applications.
+
+### 3. Compare Results
+Take the output from the chatbot and insert into the _bhima\_scr.md_. Double check the results to identify possible gaps or additional files that should be provided to build out a complete list of available routes and endpoint for BHIMA.

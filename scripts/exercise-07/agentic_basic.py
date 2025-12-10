@@ -33,7 +33,7 @@ class CustomSearchTool(BaseTool):
         self, query: str, run_manager: Optional[CallbackManagerForToolRun] = None
     ) -> str:
         """Use the tool."""
-        faiss_db_path = "../vector_databases/vtm_faiss"
+        faiss_db_path = "../vector_databases/vtm_code.faiss"
         db = FAISS.load_local(
             faiss_db_path,
             BedrockEmbeddings(model_id="amazon.titan-embed-text-v2:0"),
