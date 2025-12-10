@@ -122,18 +122,33 @@ context_step = RunnableLambda(_run_context)
 plan_prompt = ChatPromptTemplate.from_template(
     """You are writing a simple authorization review plan.
 
-Context:
+Here is the context you gathered in Step 1:
 ---
 {context}
 ---
 
-Write a short, clear plan for reviewing authorization in this application.
-Keep it brief and easy to understand.
+Using ONLY this context, write a short, clear plan for reviewing
+authorization in this application. Keep it brief and easy to understand.
+
+In your plan, start with a line like:
+"This plan is based on the context gathered in Step 1 above."
 """
 )
 
 plan_step = (
-    plan_prompt | LLM | StrOutputParser() | RunnableLambda(lambda text: {"plan": text})
+    # Log exactly what context is being passed from Step 1 into Step 2
+    RunnableLambda(
+        lambda state: (
+            print(
+                "\n[STEP 1 OUTPUT → STEP 2 INPUT] Context:\n", state.get("context", "")
+            ),
+            state,
+        )[1]
+    )
+    | plan_prompt
+    | LLM
+    | StrOutputParser()
+    | RunnableLambda(lambda text: {"plan": text})
 )
 
 
