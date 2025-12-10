@@ -22,8 +22,11 @@ load_dotenv()
 
 
 # Bridge Troll repository (authorization-focused Rails app)
+# NOTE: This script is intended to be run from the ./scripts directory.
+# We therefore store the repo under the exercise-16a folder so it stays
+# scoped to this exercise: ./scripts/exercise-16a/repo
 repo_url = "https://github.com/railsbridge/bridge_troll.git"
-repo_path = "./repo"
+repo_path = "./exercise-16a/repo"
 
 if os.path.isdir(repo_path) and os.path.isdir(os.path.join(repo_path, ".git")):
     print("Directory already contains the Bridge Troll git repository.")
@@ -61,7 +64,7 @@ LLM = ChatBedrock(
 CONTEXT_GATHERING_PROMPT = """This is a context gathering prompt.
 
 You are learning about how authorization works in an application.
-Use tools to explore the code under ./repo and gather simple notes
+Use tools to explore the code under ./exercise-16a/repo and gather simple notes
 about where and how authorization seems to be implemented.
 
 User task: {input}
@@ -151,12 +154,12 @@ plan_step = RunnableLambda(_wrap_context_for_plan) | plan_prompt | LLM | plan_pa
 # NOTE FOR STUDENTS:
 # Replace the text in REVIEW_PROMPT with your own review instructions.
 # It should use the assessment plan from step 2 and, when helpful, call
-# tools to look at the code under ./repo to perform a lightweight review.
+# tools to look at the code under ./exercise-16a/repo to perform a lightweight review.
 # ---------------------------------------------------------------------------
 REVIEW_PROMPT = """This is a very simple review prompt.
 
 You are performing a lightweight authorization review of the application
-under ./repo.
+under ./exercise-16a/repo.
 
 You have the following basic security assessment plan that you are going
 to review now (this is the output of Prompt 2 / Step 2):
