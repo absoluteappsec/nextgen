@@ -66,9 +66,9 @@ class ViewFileTool(BaseTool):
 
 
 class ViewFileLinesInput(BaseModel):
-    filepath: str = Field(description="Path to the file to view")
-    start_line: int = Field(description="Starting line number (1-indexed)")
-    end_line: int = Field(description="Ending line number (1-indexed, inclusive)")
+    filepath: str = Field(description="Path to the file to view, ONLY the file path, example: /path/to/file.py")
+    start_line: int = Field(description="ONLY an integer of the starting line number (1-indexed), example: 10")
+    end_line: int = Field(description="ONLY an integer of the ending line number (1-indexed, inclusive), example: 20")
 
 
 class ViewFileLinesTool(BaseTool):
