@@ -3,9 +3,10 @@ File viewing tools for LangGraph ReAct / LCEL demonstrations.
 Copied from exercise-11a for reuse in exercise-15a.
 """
 
+import json
 import os
 import re
-from typing import Optional, Type
+from typing import Optional, Type, Union
 from langchain.callbacks.manager import CallbackManagerForToolRun
 from langchain.tools import BaseTool
 from pydantic import BaseModel, Field
@@ -34,7 +35,7 @@ class ViewFileTool(BaseTool):
             flags=re.DOTALL,
         )
         cleaned_filepath = re.sub(r"[\n`]", "", cleaned_filepath)
-        cleaned_filepath = cleaned_filepath.strip()
+        cleaned_filepath = cleaned_filepath.strip().strip('"').strip("'")
 
         # Normalize the path
         try:
@@ -66,34 +67,53 @@ class ViewFileTool(BaseTool):
 
 
 class ViewFileLinesInput(BaseModel):
-    filepath: str = Field(description="Path to the file to view, ONLY the file path, example: /path/to/file.py")
-    start_line: int = Field(description="ONLY an integer of the starting line number (1-indexed), example: 10")
-    end_line: int = Field(description="ONLY an integer of the ending line number (1-indexed, inclusive), example: 20")
+    input_str: str = Field(
+        description="Input in format: filepath start_line end_line (e.g., './path/to/file.php 1 100')"
+    )
 
 
 class ViewFileLinesTool(BaseTool):
     name: str = "view_file_lines"
     description: str = (
-        "Views specific line ranges of a file. Use for large files or specific sections."
+        "Views specific line ranges of a file. Use for large files or specific sections. "
+        "Input format: 'filepath start_line end_line' (space-separated). "
+        "Example: './path/to/file.php 1 100' to view lines 1-100. Maximum 100 lines per request."
     )
     args_schema: Type[ViewFileLinesInput] = ViewFileLinesInput
 
     def _run(
         self,
-        filepath: str,
-        start_line: int,
-        end_line: int,
+        input_str: str,
         run_manager: Optional[CallbackManagerForToolRun] = None,
     ) -> str:
-        # Clean up the filepath
-        cleaned_filepath = re.sub(
+        # Clean up the input
+        cleaned_input = re.sub(
             r"^\s*```(?:json|python|text|sh|bash|plaintext)?\s*|\s*```\s*$",
             "",
-            filepath.strip(),
+            input_str.strip(),
             flags=re.DOTALL,
         )
-        cleaned_filepath = re.sub(r"[\n`]", "", cleaned_filepath)
-        cleaned_filepath = cleaned_filepath.strip()
+        cleaned_input = re.sub(r"[\n`]", "", cleaned_input)
+        cleaned_input = cleaned_input.strip().strip('"').strip("'")
+
+        # Parse the input: filepath start_line end_line
+        parts = cleaned_input.rsplit(
+            " ", 2
+        )  # Split from right to handle paths with spaces
+        if len(parts) != 3:
+            return f"[Error]: Invalid input format. Expected 'filepath start_line end_line', got: {cleaned_input}"
+
+        filepath, start_str, end_str = parts
+        filepath = filepath.strip().strip('"').strip("'")
+
+        try:
+            start_line = int(start_str)
+            end_line = int(end_str)
+        except ValueError:
+            return f"[Error]: start_line and end_line must be integers. Got: start='{start_str}', end='{end_str}'"
+
+        # Clean up the filepath
+        cleaned_filepath = filepath
 
         # Normalize the path
         try:
