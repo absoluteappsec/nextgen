@@ -37,7 +37,7 @@ retriever = db.as_retriever(
 #)
 
 llm = Ollama(
-    model="gemma3",
+    model="gemma4:e2b",
     temperature=0.1,
 )
 
