@@ -46,7 +46,7 @@ prompt = ChatPromptTemplate.from_messages(
 )
 
 llm = ChatBedrock(
-    model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    model_id="qwen.qwen3-coder-30b-a3b-v1:0",
     model_kwargs={"temperature": 0.6},
 )
 
