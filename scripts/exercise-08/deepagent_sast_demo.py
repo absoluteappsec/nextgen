@@ -5,6 +5,7 @@ from dotenv import load_dotenv
 import os
 import git
 
+
 load_dotenv()
 
 # Git repo setup
@@ -23,7 +24,7 @@ else:
 
 # LLM setup
 llm = ChatBedrockConverse(
-    model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    model_id="qwen.qwen3-coder-30b-a3b-v1:0",
     temperature=0.6,
 )
 
