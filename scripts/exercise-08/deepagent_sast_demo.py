@@ -2,6 +2,7 @@ from deepagents import create_deep_agent
 from deepagents.backends import FilesystemBackend
 from langchain_aws import ChatBedrockConverse
 from langchain_core.runnables import RunnableLambda
+from fetch_url_tool import FetchURLTool
 from dotenv import load_dotenv
 import os
 import git
@@ -237,7 +238,7 @@ Be ruthless about false positives. A finding with no realistic exploit path is n
 def new_step(name: str, system_prompt: str):
     agent = create_deep_agent(
         model=llm,
-        tools=[],
+        tools=[FetchURLTool()],
         backend=filesystem_backend,
         system_prompt=system_prompt,
         skills=[skills_dir],
