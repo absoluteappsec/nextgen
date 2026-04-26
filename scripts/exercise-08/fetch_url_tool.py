@@ -5,18 +5,22 @@ Intentionally vulnerable to SSRF for educational purposes.
 
 import subprocess
 from typing import Optional, Type
-from langchain.callbacks.manager import CallbackManagerForToolRun
-from langchain.tools import BaseTool
+from langchain_core.callbacks import CallbackManagerForToolRun
+from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
 
 
 class FetchURLInput(BaseModel):
-    url: str = Field(description="The URL to fetch")
+    url: str = Field(
+        description="The URL to fetch. It must be a FULL URL. Not URI. Not HTTP Path. URL"
+    )
 
 
 class FetchURLTool(BaseTool):
     name: str = "fetch_url"
-    description: str = "Fetches the content of a URL using curl and returns the response body."
+    description: str = (
+        "Fetches the content of a URL using curl and returns the response body. USE THIS TOOL WHEN YOU NEED TO RESEARCH THINGS ON THE WEB"
+    )
     args_schema: Type[FetchURLInput] = FetchURLInput
 
     def _run(
