@@ -22,7 +22,6 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import (
     RunnableBranch,
     RunnableLambda,
-    RunnablePassthrough,
 )
 from dotenv import load_dotenv
 
@@ -93,7 +92,9 @@ classify_prompt = ChatPromptTemplate.from_messages(
     ]
 )
 
-classify_chain = classify_prompt | llm | StrOutputParser() | (lambda x: x.strip().lower())
+classify_chain = (
+    classify_prompt | llm | StrOutputParser() | (lambda x: x.strip().lower())
+)
 
 # ------------------------------------------------------------------------------
 # Step 2: RunnableBranch routes to the correct retriever
@@ -145,7 +146,9 @@ def classify_and_retrieve(input_dict):
     return {"context": context, "question": question}
 
 
-full_chain = RunnableLambda(classify_and_retrieve) | answer_prompt | llm | StrOutputParser()
+full_chain = (
+    RunnableLambda(classify_and_retrieve) | answer_prompt | llm | StrOutputParser()
+)
 
 # ------------------------------------------------------------------------------
 # Interactive chat
