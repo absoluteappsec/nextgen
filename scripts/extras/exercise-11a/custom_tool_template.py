@@ -13,8 +13,8 @@ Example use cases:
 """
 
 from typing import Optional, Type
-from langchain.callbacks.manager import CallbackManagerForToolRun
-from langchain.tools import BaseTool
+from langchain_core.callbacks import CallbackManagerForToolRun
+from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
 
 
