@@ -6,7 +6,7 @@ Copied from exercise-11a for reuse in exercise-15a.
 import os
 import re
 from typing import Optional, Type
-from langchain_core.callbacks import CallbackManagerForToolRun
+from langchain_core.callbacks.manager import CallbackManagerForToolRun
 from langchain_core.tools import BaseTool
 from pydantic import BaseModel, Field
 
