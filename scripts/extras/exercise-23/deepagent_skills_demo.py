@@ -65,7 +65,7 @@ llm = ChatBedrockConverse(
 )
 
 # Backend for filesystem access - agent can read files in the repo
-filesystem_backend = FilesystemBackend(root_dir=repo_path, virtual_mode=True)
+filesystem_backend = FilesystemBackend(root_dir=repo_path, virtual_mode=False)
 
 # Checkpointer for conversation memory
 checkpointer = MemorySaver()

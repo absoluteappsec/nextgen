@@ -27,8 +27,7 @@ else:
 print(f"Repo path: {repo_path}")
 
 # Backend for local filesystem access - points to the repo directory
-# virtual_mode=True restricts access to root_dir only (recommended for security)
-filesystem_backend = FilesystemBackend(root_dir=repo_path, virtual_mode=True)
+filesystem_backend = FilesystemBackend(root_dir=repo_path, virtual_mode=False)
 
 
 # ------------------------------------------------------------------------------

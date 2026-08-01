@@ -1,3 +1,5 @@
+import warnings
+warnings.filterwarnings("ignore", message=".*langchain-community.*")
 from deepagents import create_deep_agent
 from langchain_aws import ChatBedrockConverse
 from pydantic import BaseModel, Field
