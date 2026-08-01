@@ -12,8 +12,10 @@ retriever, and the answer is generated from the retrieved context.
 """
 
 import os
+import warnings
 
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"
+warnings.filterwarnings("ignore", message=".*langchain-community.*")
 
 from langchain_aws import ChatBedrockConverse, BedrockEmbeddings
 from langchain_community.vectorstores import FAISS

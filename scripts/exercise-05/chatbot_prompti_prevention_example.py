@@ -7,7 +7,9 @@ reach the LLM.
 """
 
 import os
+import warnings
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # Fix for OpenMP issue on macOS
+warnings.filterwarnings("ignore", message=".*langchain-community.*")
 
 from deepagents import create_deep_agent
 from langchain.agents.middleware import AgentMiddleware

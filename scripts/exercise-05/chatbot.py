@@ -1,5 +1,9 @@
 import os
+import warnings
 os.environ["KMP_DUPLICATE_LIB_OK"] = "TRUE"  # Fix for OpenMP issue on macOS
+warnings.filterwarnings("ignore", category=DeprecationWarning, message=".*langchain-community.*")
+from langchain_core._api.deprecation import LangChainDeprecationWarning
+warnings.filterwarnings("ignore", category=LangChainDeprecationWarning)
 
 from langchain_core.prompts import PromptTemplate
 from langchain_aws import ChatBedrock
