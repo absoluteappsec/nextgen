@@ -31,10 +31,17 @@ python extras/exercise-25/kv_cache_demo.py
 
 ### 2. Observe the Metrics
 
+When caching is active:
 - **Query 1:** `cache_creation_input_tokens` > 0 (KV cache is computed)
 - **Query 2 & 3:** `cache_read_input_tokens` > 0 (KV cache is reused)
 
 Cached tokens are billed at 90% discount on reads, with a 25% write premium on creation.
+
+### Bedrock Note
+
+Cross-region inference profiles (`us.anthropic.*`) do not support prompt caching because requests route across multiple regions, preventing per-region KV cache reuse. Cache metrics will show 0 in this configuration. The `cache_control` structure in the script is production-correct — to see live metrics, use either:
+- A single-region Bedrock model ID (requires provisioned throughput)
+- The direct Anthropic API with an `ANTHROPIC_API_KEY`
 
 ### 3. Experiment (Optional)
 
