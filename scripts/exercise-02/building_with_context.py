@@ -79,7 +79,7 @@ chain = (
     {
         "code": retriever,
         "question": RunnablePassthrough(),
-        "context": RunnablePassthrough(),
+        "context": lambda _: context,
     }
     | prompt
     | llm
