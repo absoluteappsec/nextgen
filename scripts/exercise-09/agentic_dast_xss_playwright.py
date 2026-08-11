@@ -112,30 +112,67 @@ class BrowserTool(BaseTool):
         raise NotImplementedError("browser_tool does not support async")
 
 
-# Define tools and LLM
+# Define tools and LLMs.
 tools = [BrowserTool()]
-llm = ChatBedrockConverse(
-    #model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+orchestrator_llm = ChatBedrockConverse(
+    #model_id="qwen.qwen3-coder-30b-a3b-v1:0",
+    model_id="us.anthropic.claude-haiku-4-5-20251001-v1:0",
+    temperature=0.6,
+)
+subagent_llm = ChatBedrockConverse(
     model_id="qwen.qwen3-coder-30b-a3b-v1:0",
     temperature=0.6,
 )
 
-# System prompt - clean, no ReAct boilerplate
-system_prompt = """You are an agent designed to check whether a page is vulnerable to cross-site scripting by loading it in a real browser and observing whether an alert/confirm/prompt popup actually fires, using a multi-step reasoning process.
+# Subagent that actually fires a single payload at a single injection point.
+payload_tester_prompt = """You are given ONE candidate injection point (a URL, HTTP method, and
+parameter set) and ONE specific XSS payload already substituted into that parameter set.
 
-### Analysis Process
-1. **Initial Request**: Load the provided URL in the browser using the specified method (GET or POST).
-2. **XSS Analysis**: Inspect the page and interactions for possible XSS locations, send crafted payloads to confirm whether or not its vulnerable.
-3. **Response Analysis**: Inspect the tool result for:
+### Task
+1. Load the request in the browser tool exactly as given (do not modify the payload).
+2. Inspect the tool result:
    - popup_triggered / popups: whether a JavaScript dialog actually fired (the strongest evidence of XSS)
-   - body_snippet: (str) the rendered page body, to spot reflected/unescaped payloads even if no popup fired
+   - body_snippet: whether the payload is reflected unescaped even if no popup fired
    - screenshot: path to a screenshot of the page at the time it was rendered
-4. **Final Response**: Return the relevant information from the browser request.
-
-You have access to a browser tool that loads a URL in a real, visible browser and executes its JavaScript. It can handle both GET and POST requests, and will report any popup dialog that fires as a result of an injected payload.
+3. Report back ONLY on this single payload/injection point.
 
 ### Output Format
-Your final response must include:
+- URL: (str)
+- Parameter: (str) the parameter that carried the payload
+- Payload: (str) the exact payload tested
+- XSS: (str) Yes or No
+- Evidence: (str) "popup" or "reflected-in-body" or "none"
+- Justification: (str) brief justification ONLY if XSS is confirmed
+"""
+
+subagents = [
+    {
+        "name": "xss-payload-tester",
+        "description": (
+            "Tests one specific XSS payload against one specific URL/parameter combination "
+            "using a real browser, and reports whether it triggered a popup or was reflected "
+            "unescaped. Delegate each candidate payload/injection-point pair to a separate "
+            "call of this subagent so payloads are tested independently."
+        ),
+        "system_prompt": payload_tester_prompt,
+        "tools": [BrowserTool()],
+        "model": subagent_llm,
+    },
+]
+
+# System prompt
+system_prompt = """You are a security expert that checks whether a page is vulnerable to cross-site scripting (Reflected, Stored, or DOM-based) using a multi-step reasoning process.
+
+### Analysis Process
+1. **Recon**: Load the provided URL yourself with the browser tool (GET or POST as specified) to see the page, its parameters, and any inline JavaScript.
+2. **Craft Candidates**: Based on that recon, identify candidate injection points (parameters, headers, etc.) and craft one or more XSS payloads to test against each.
+3. **Delegate**: For EACH (injection point, payload) pair, delegate to the `xss-payload-tester` subagent via the `task` tool, passing the exact URL/method/parameters (with the payload substituted in) for it to test. Do this for every candidate — do not test payloads yourself once you have candidates to delegate.
+4. **Aggregate**: Collect the results from all delegated subagent calls and combine them into a single final answer.
+
+You have access to a browser tool that loads a URL in a real, visible browser and executes its JavaScript, and a `task` tool for delegating individual payload tests to the `xss-payload-tester` subagent.
+
+### Output Format
+Your final response must include, for each injection point/payload tested:
 - URL: (str) The URL of the request
 - Parameters: (str) The parameters sent with the request
 - XSS: (str) Any identified XSS vulnerabilities (Yes or No)
@@ -144,8 +181,9 @@ Your final response must include:
 
 # Create DeepAgent
 agent = create_deep_agent(
-    model=llm,
+    model=orchestrator_llm,
     tools=tools,
+    subagents=subagents,
     system_prompt=system_prompt,
 )
 

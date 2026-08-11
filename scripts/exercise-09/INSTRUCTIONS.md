@@ -76,7 +76,7 @@ Check the saved screenshot in _exercise-09/steps/_ to see the page state at the 
 ### 5. Update Prompts
 Improve the analysis and target different portions of the request and response utilizing the example prompts in the _exercise-09/xss-prompts_ directory.
 
-*Note*: This page has more than one version of an XSS vulnerability. Challenge the script to identify other flaws outside the DOM-Based XSS shown above.
+*Note*: This page has more than one version of an XSS vulnerability. Challenge the scripts to identify other flaws outside the DOM-Based XSS shown during the initial interactions.
 
 ### 6 Authenticated Interactions
 The _/taskManager/search_ page requires an authenticated session to reach, so a plain GET/POST from the browser tool will just be redirected to the login page. Update _exercise-09/agentic\_dast\_xss\_playwright.py_ so it authenticates first, then demonstrates the XSS on the search page:
